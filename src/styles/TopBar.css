@@ -14,8 +14,11 @@
 }
 
 .App-title {
-    font-weight: bold;
     flex: 1;
+    text-align: left;
+    font-weight: bold;
+    font-size: 17px;
+    color: #61dafb;
 }
 
 .logout {

@@ -5,8 +5,10 @@
 /.pnp
 .pnp.js
 
+.eslintcache
 /.idea
 .iml
+package-lock.json
 
 # testing
 /coverage
