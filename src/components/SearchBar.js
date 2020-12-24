@@ -15,12 +15,17 @@ function SearchBar(props) {
             return;
         }
 
+        props.onSearch({ type: searchType, keyword: value })
+
     };
 
     const changeSearchType = e => {
         const searchType = e.target.value;
         setError("");
         setSearchType(searchType);
+        if (searchType === SEARCH_KEY.all) {
+            props.onSearch({type: SEARCH_KEY.all, keyword: ""});
+        }
     }
 
     return (

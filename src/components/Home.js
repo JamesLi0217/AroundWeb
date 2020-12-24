@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import SearchBar from './SearchBar';
-import { Tabs, message } from 'antd';
+import PostButton from './PostButton';
+import {Tabs, Button, message, Row, Col} from 'antd';
 import axios from 'axios';
 import {SEARCH_KEY, BASE_URL, TOKEN_KEY} from '../constants';
 import PhotoGallery from "./PhotoGallery";
@@ -73,16 +74,44 @@ function Home(props) {
 
             return <PhotoGallery images={imageArr} />;
         } else if (type === 'video') {
-            return 'video';
+            return (
+                <Row>
+                    {
+                        post.filter(item => item.type === 'video')
+                            .map(item => (
+                                <Col span={8} key={item.url}>
+                                    <video url={item.src}
+                                           contro={true}
+                                           className='video-block' />
+                                           <p>{ item.user }: { item.message }</p>
+                                </Col>
+                            ))
+                    }
+                </Row>
+            )
         }
     }
+
+    const handleSearch = (value) => {
+        const { type, keyword } = value;
+        setSearchOption({type: type, keyword: keyword})
+    }
+
+    const showPost = (type) => {
+        setActiveTab(type);
+        setTimeout(setSearchOption({type: SEARCH_KEY.all, keyword: ""}, 3000));
+    }
+
+    const operations = <PostButton onShowPost={showPost}>Upload</PostButton>;
 
 
     return (
         <div className="home">
-            <SearchBar />
+            <SearchBar onSearch={handleSearch}/>
             <div>
-                <Tabs defaultActiveKey="image" activeKey={activeTab}
+                <Tabs tabBarExtraContent={operations}
+                      defaultActiveKey="image"
+                      activeKey={activeTab}
                       onChange={key => {setActiveTab(key)}}>
                     <TabPane tab="Image" key="image">
                         {renderPosts("image")}
